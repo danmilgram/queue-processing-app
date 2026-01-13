@@ -22,29 +22,13 @@ def process_task(task: Dict[str, Any]) -> None:
     priority = task["priority"]
 
     logger.info(
-        "Processing task",
+        f"Processing {priority} priority task",
         extra={
             "task_id": task_id,
             "priority": priority,
             "title": title,
         },
     )
-
-    # Example real logic (deterministic & repeat-safe)
-    if priority == "high":
-        logger.info("High priority task handled", extra={"task_id": task_id})
-
-    elif priority == "medium":
-        logger.info("Medium priority task handled", extra={"task_id": task_id})
-
-    else:
-        logger.info("Low priority task handled", extra={"task_id": task_id})
-
-    # Simulate validation failure → retry + DLQ
-    if not title.strip():
-        raise ValueError("Task title cannot be empty")
-
-    logger.info("Task processed successfully", extra={"task_id": task_id})
 
 
 def handle(event: Dict[str, Any], context: Any) -> None:
