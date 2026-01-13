@@ -1,8 +1,11 @@
-#!/usr/bin/env node
-import * as cdk from 'aws-cdk-lib/core';
-import {QueueStack} from "../lib/stacks/queue-stack";
+import * as cdk from "aws-cdk-lib";
+import { QueueStack } from "../lib/stacks/queue-stack";
+import { ApiStack } from "../lib/stacks/api-stack";
 
 const app = new cdk.App();
 
-new QueueStack(app, "QueueStack");
+const queueStack = new QueueStack(app, "QueueStack");
 
+new ApiStack(app, "ApiStack", {
+  taskQueue: queueStack.taskQueue,
+});
