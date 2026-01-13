@@ -15,8 +15,6 @@ logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 QUEUE_URL = os.environ.get("QUEUE_URL")
-if not QUEUE_URL:
-    raise RuntimeError("QUEUE_URL environment variable is not set")
 
 sqs = boto3.client("sqs")
 
