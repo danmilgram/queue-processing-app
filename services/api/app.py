@@ -1,11 +1,13 @@
+import boto3
+import os
+import logging
+import json
+
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 from typing import Literal, Optional
 from datetime import datetime
 from uuid import uuid4
-import boto3
-import os
-import logging
 
 from mangum import Mangum
 
@@ -35,7 +37,16 @@ class TaskResponse(BaseModel):
 def create_task(task: TaskRequest) -> TaskResponse:
     task_id = str(uuid4())
 
-    message_body = task.model_dump_json()
+    payload = {
+        "task_id": task_id,
+        "title": task.title,
+        "description": task.description,
+        "priority": task.priority,
+        "due_date": task.due_date.isoformat() if task.due_date else None,
+    }
+
+    message_body = json.dumps(payload)
+
 
     try:
         sqs.send_message(
