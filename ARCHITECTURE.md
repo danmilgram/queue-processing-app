@@ -1,29 +1,6 @@
-flowchart LR
-    Client[Client / API Consumer]
+![Architecture Diagram](./docs/architecture-diagram.svg)
 
-    APIGW[API Gateway<br/>POST /tasks]
-    APILambda[FastAPI Lambda<br/>(Task API)]
-
-    TaskQueue[SQS FIFO Queue<br/>task-queue.fifo<br/>• Ordered<br/>• At-least-once]
-    DLQ[SQS FIFO DLQ<br/>task-dlq.fifo]
-
-    ProcessorLambda[Lambda<br/>Task Processor]
-
-    Logs[CloudWatch Logs]
-
-    Client -->|HTTP POST| APIGW
-    APIGW --> APILambda
-
-    APILambda -->|Validated task<br/>MessageGroupId=tasks<br/>DedupId=task_id| TaskQueue
-
-    TaskQueue -->|BatchSize=1<br/>Ordered delivery| ProcessorLambda
-
-    ProcessorLambda -->|Success| Logs
-    ProcessorLambda -->|Failure (exception)| TaskQueue
-    TaskQueue -->|maxReceiveCount exceeded| DLQ
-
-
-# Architecture Explanation (concise, reviewer-friendly)
+# Architecture Explanation
 
 1️⃣ Task Ingestion (API Layer)
 
