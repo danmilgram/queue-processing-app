@@ -14,7 +14,10 @@ def process_task(task: Dict[str, Any]) -> None:
     - No external side effects
     - Safe to retry
     """
-    task_id = task["task_id"]
+    task_id = task.get("task_id")
+    if not task_id:
+        raise ValueError("Missing task_id")
+
     title = task["title"]
     priority = task["priority"]
 
@@ -48,6 +51,7 @@ def handle(event: Dict[str, Any], context: Any) -> None:
     """
     Lambda entrypoint for SQS FIFO processing.
     """
+    # TODO: Add idempotency check (DB lookup) to prevent duplicate processing beyond SQS 5min window
     for record in event.get("Records", []):
         try:
             task = json.loads(record["body"])

@@ -19,7 +19,7 @@ export class QueueStack extends Stack {
       queueName: "task-queue.fifo",
       fifo: true,
       contentBasedDeduplication: true,
-      visibilityTimeout: Duration.seconds(30),
+      visibilityTimeout: Duration.seconds(180), // 6x Lambda timeout to prevent redelivery during processing
       deadLetterQueue: {
         queue: this.deadLetterQueue,
         maxReceiveCount: 5,

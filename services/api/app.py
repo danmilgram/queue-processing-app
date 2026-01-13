@@ -15,6 +15,8 @@ logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 QUEUE_URL = os.environ.get("QUEUE_URL")
+if not QUEUE_URL:
+    raise RuntimeError("QUEUE_URL environment variable is not set")
 
 sqs = boto3.client("sqs")
 
@@ -45,14 +47,17 @@ def create_task(task: TaskRequest) -> TaskResponse:
 
     message_body = json.dumps(payload)
 
-
+    # TODO: consider storing message in DB before sending to ensure no loss on API crash
     try:
-        sqs.send_message(
+        response = sqs.send_message(
             QueueUrl=QUEUE_URL,
             MessageBody=message_body,
             MessageGroupId="tasks",  # global ordering
             MessageDeduplicationId=task_id,
         )
+        if "MessageId" not in response:
+            raise RuntimeError("SQS enqueue failed")
+
     except Exception as exc:
         logger.exception("Failed to send message to SQS")
         raise HTTPException(status_code=500, detail="Failed to enqueue task") from exc
