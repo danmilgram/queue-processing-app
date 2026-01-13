@@ -1,4 +1,4 @@
-![Architecture Diagram](./docs/architecture-diagram.svg)
+![Architecture Diagram](architecture-diagram.svg)
 
 # Architecture Explanation
 
