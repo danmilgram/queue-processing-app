@@ -2,33 +2,10 @@ import json
 import logging
 from typing import Any, Dict
 
+from services.task_processor import TaskProcessor
+
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
-
-
-def process_task(task: Dict[str, Any]) -> None:
-    """
-    Process a single task.
-
-    This function is intentionally idempotent:
-    - No external side effects
-    - Safe to retry
-    """
-    task_id = task.get("task_id")
-    if not task_id:
-        raise ValueError("Missing task_id")
-
-    title = task["title"]
-    priority = task["priority"]
-
-    logger.info(
-        f"Processing {priority} priority task",
-        extra={
-            "task_id": task_id,
-            "priority": priority,
-            "title": title,
-        },
-    )
 
 
 def handle(event: Dict[str, Any], context: Any) -> None:
@@ -39,7 +16,7 @@ def handle(event: Dict[str, Any], context: Any) -> None:
     for record in event.get("Records", []):
         try:
             task = json.loads(record["body"])
-            process_task(task)
+            TaskProcessor.process(task)
         except Exception:
             logger.exception("Task processing failed, triggering retry")
             raise  # REQUIRED for SQS retry / DLQ

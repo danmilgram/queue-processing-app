@@ -2,7 +2,6 @@ import { Stack, StackProps, Duration } from "aws-cdk-lib";
 import { Construct } from "constructs";
 import * as lambda from "aws-cdk-lib/aws-lambda";
 import * as sqs from "aws-cdk-lib/aws-sqs";
-import * as iam from "aws-cdk-lib/aws-iam";
 import * as eventSources from "aws-cdk-lib/aws-lambda-event-sources";
 
 interface ProcessorStackProps extends StackProps {
