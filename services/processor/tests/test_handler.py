@@ -1,6 +1,5 @@
 """Processor Lambda Handler Tests"""
 import pytest
-import json
 from unittest.mock import patch
 from handler import handle
 
