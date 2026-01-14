@@ -1,4 +1,5 @@
 import boto3
+from botocore.config import Config
 import os
 import logging
 import json
@@ -18,7 +19,14 @@ QUEUE_URL = os.environ.get("QUEUE_URL")
 if not QUEUE_URL:
     raise RuntimeError("QUEUE_URL environment variable is not set")
 
-sqs = boto3.client("sqs")
+# Configure boto3 with automatic retries for transient failures
+retry_config = Config(
+    retries={
+        'max_attempts': 5,  # Total attempts (1 initial + 4 retries)
+        'mode': 'standard'  # Exponential backoff with jitter
+    }
+)
+sqs = boto3.client("sqs", config=retry_config)
 
 app = FastAPI(title="Task Management API")
 
@@ -47,7 +55,8 @@ def create_task(task: TaskRequest) -> TaskResponse:
 
     message_body = json.dumps(payload)
 
-    # TODO: consider storing message in DB before sending to ensure no loss on API crash
+    # Boto3 will automatically retry transient failures (network, throttling, 5xx errors)
+    # TODO: For complete durability, store in DB before sending (protects against API crash before SQS ack)
     try:
         response = sqs.send_message(
             QueueUrl=QUEUE_URL,
@@ -55,8 +64,6 @@ def create_task(task: TaskRequest) -> TaskResponse:
             MessageGroupId="tasks",  # global ordering
             MessageDeduplicationId=task_id,
         )
-        if "MessageId" not in response:
-            raise RuntimeError("SQS enqueue failed")
 
     except Exception as exc:
         logger.exception("Failed to send message to SQS")
