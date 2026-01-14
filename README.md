@@ -55,15 +55,32 @@ pytest -v
 
 ---
 
-## Deployment
+### Infrastructure Validation (Required)
+
+No AWS deployment is required to evaluate this challenge.
+
+To validate that all infrastructure is correctly defined and synthesizes
+into valid CloudFormation templates, run:
+
+```bash
+cdk synth
+```
+
+---
+
+### Deployment
 
 **Prerequisites:**
-- AWS CLI configured (`aws configure`)
-- Node.js and AWS CDK installed
+- Node.js (v18+ recommended)
+- AWS CDK v2 (`npm install -g aws-cdk`)
+- AWS CLI installed and configured (`aws configure`)
+- Python 3.11+
+
 
 **Deploy:**
 ```bash
-cdk deploy --all
+cdk bootstrap # (one-time environment setup)
+cdk deploy --all # deploy all services
 ```
 
 **Output:**
