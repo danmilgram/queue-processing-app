@@ -55,6 +55,17 @@ pytest -v
 
 ---
 
+## Code Quality
+
+**Format and lint:**
+```bash
+# From project root
+ruff format services/
+ruff check services/ --fix
+```
+
+---
+
 ### Infrastructure Validation (Required)
 
 No AWS deployment is required to evaluate this challenge.

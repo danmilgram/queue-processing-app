@@ -1,11 +1,12 @@
 """POST /tasks Endpoint Tests"""
+
 import json
 import uuid
-
 
 # ==============================================================================
 # INPUT VALIDATION TESTS
 # ==============================================================================
+
 
 def test_valid_payload_returns_201(client, valid_payload):
     """Valid payload should return 201 Created"""
@@ -59,6 +60,7 @@ def test_due_date_in_past_returns_422(client, valid_payload):
 # TASK ID GENERATION TESTS
 # ==============================================================================
 
+
 def test_task_id_is_valid_uuid(client, valid_payload, mock_sqs):
     """Task ID should be a valid UUID"""
     response = client.post("/tasks", json=valid_payload)
@@ -84,6 +86,7 @@ def test_task_id_is_unique(client, valid_payload, mock_sqs):
 # ==============================================================================
 # SQS INTEGRATION TESTS (with mocked AWS)
 # ==============================================================================
+
 
 def test_sqs_enqueue_behavior(mock_sqs, client, valid_payload):
     """

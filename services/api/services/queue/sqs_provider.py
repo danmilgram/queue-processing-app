@@ -1,7 +1,9 @@
 import os
+from typing import Any, Dict
+
 import boto3
 from botocore.config import Config
-from typing import Any, Dict
+
 from .base import QueueProvider
 
 
@@ -17,8 +19,8 @@ class SQSQueueProvider(QueueProvider):
         # Configure boto3 with automatic retries for transient failures
         retry_config = Config(
             retries={
-                'max_attempts': 5,  # Total attempts (1 initial + 4 retries)
-                'mode': 'standard'  # Exponential backoff with jitter
+                "max_attempts": 5,  # Total attempts (1 initial + 4 retries)
+                "mode": "standard",  # Exponential backoff with jitter
             }
         )
         self.client = boto3.client("sqs", config=retry_config)
@@ -35,7 +37,8 @@ class SQSQueueProvider(QueueProvider):
         Returns:
             dict: SQS response
         """
-        # TODO: For complete durability, store in DB before sending (protects against API crash before SQS ack)
+        # TODO: For complete durability, store in DB before sending
+        # (protects against API crash before SQS ack)
         response = self.client.send_message(
             QueueUrl=self.queue_url,
             MessageBody=message_body,

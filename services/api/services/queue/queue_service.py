@@ -1,6 +1,7 @@
 import json
 import logging
-from typing import Dict, Any
+from typing import Any, Dict
+
 from .base import QueueProvider
 
 logger = logging.getLogger(__name__)
@@ -31,10 +32,7 @@ class TaskQueueService:
         """
         message_body = json.dumps(task_data)
 
-        response = self.provider.send_message(
-            message_body=message_body,
-            task_id=task_id
-        )
+        response = self.provider.send_message(message_body=message_body, task_id=task_id)
 
         logger.info("Task enqueued", extra={"task_id": task_id})
         return response

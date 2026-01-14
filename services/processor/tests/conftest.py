@@ -1,5 +1,6 @@
-import pytest
 import json
+
+import pytest
 
 
 @pytest.fixture
@@ -33,20 +34,24 @@ def multiple_records_event():
     return {
         "Records": [
             {
-                "body": json.dumps({
-                    "task_id": "1",
-                    "title": "Task 1",
-                    "description": "First",
-                    "priority": "low",
-                })
+                "body": json.dumps(
+                    {
+                        "task_id": "1",
+                        "title": "Task 1",
+                        "description": "First",
+                        "priority": "low",
+                    }
+                )
             },
             {
-                "body": json.dumps({
-                    "task_id": "2",
-                    "title": "Task 2",
-                    "description": "Second",
-                    "priority": "medium",
-                })
+                "body": json.dumps(
+                    {
+                        "task_id": "2",
+                        "title": "Task 2",
+                        "description": "Second",
+                        "priority": "medium",
+                    }
+                )
             },
         ]
     }

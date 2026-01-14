@@ -1,6 +1,7 @@
-import pytest
 import os
 from unittest.mock import MagicMock, patch
+
+import pytest
 from fastapi.testclient import TestClient
 
 
@@ -25,6 +26,7 @@ def mock_sqs():
 def client(mock_env, mock_sqs):
     """FastAPI test client with mocked SQS and environment"""
     from app import app
+
     return TestClient(app)
 
 

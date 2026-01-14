@@ -1,10 +1,10 @@
 import logging
 from uuid import uuid4
-from fastapi import APIRouter, HTTPException
 
+from fastapi import APIRouter, HTTPException
 from schemas.task import TaskRequest, TaskResponse
-from services.queue.sqs_provider import SQSQueueProvider
 from services.queue.queue_service import TaskQueueService
+from services.queue.sqs_provider import SQSQueueProvider
 
 logger = logging.getLogger(__name__)
 
@@ -24,7 +24,6 @@ def create_task(task: TaskRequest) -> TaskResponse:
     }
 
     try:
-
         # Initialize queue service with SQS provider
         queue_provider = SQSQueueProvider()
         queue_service = TaskQueueService(provider=queue_provider)
