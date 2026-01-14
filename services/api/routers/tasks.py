@@ -8,10 +8,10 @@ from services.queue.queue_service import TaskQueueService
 
 logger = logging.getLogger(__name__)
 
-router = APIRouter(prefix="/tasks", tags=["Tasks"])
+router = APIRouter(tags=["Tasks"])
 
 
-@router.post("/", status_code=201, response_model=TaskResponse)
+@router.post("/tasks", status_code=201, response_model=TaskResponse)
 def create_task(task: TaskRequest) -> TaskResponse:
     task_id = str(uuid4())
 
