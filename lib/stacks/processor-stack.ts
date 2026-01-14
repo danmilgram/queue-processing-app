@@ -15,7 +15,19 @@ export class ProcessorStack extends Stack {
     const processorLambda = new lambda.Function(this, "TaskProcessorLambda", {
       runtime: lambda.Runtime.PYTHON_3_11,
       handler: "handler.handle",
-      code: lambda.Code.fromAsset("services/processor"),
+      code: lambda.Code.fromAsset("services/processor", {
+        bundling: {
+          image: lambda.Runtime.PYTHON_3_11.bundlingImage,
+          command: [
+            "bash",
+            "-c",
+            [
+              "pip install -r requirements.txt -t /asset-output",
+              "cp -au . /asset-output",
+            ].join(" && "),
+          ],
+        },
+      }),
       timeout: Duration.seconds(30),
     });
 
