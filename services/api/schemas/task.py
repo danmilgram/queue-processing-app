@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Field, validator
 from typing import Literal, Optional
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 class TaskRequest(BaseModel):
@@ -11,8 +11,14 @@ class TaskRequest(BaseModel):
 
     @validator('due_date')
     def due_date_must_be_future(cls, v):
-        if v is not None and v < datetime.now():
-            raise ValueError('due_date must be in the future')
+        if v is not None:
+            # Make comparison timezone-aware
+            now = datetime.now(timezone.utc)
+            # If v is naive, make it UTC aware
+            if v.tzinfo is None:
+                v = v.replace(tzinfo=timezone.utc)
+            if v < now:
+                raise ValueError('due_date must be in the future')
         return v
 
 
