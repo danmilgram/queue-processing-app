@@ -64,6 +64,11 @@ ruff format services/
 ruff check services/ --fix
 ```
 
+**Type check:**
+```bash
+pyright services/
+```
+
 ---
 
 ### Infrastructure Validation (Required)
