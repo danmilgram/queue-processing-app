@@ -1,7 +1,7 @@
 import logging
 from typing import Any, Dict
 
-from schemas.task import TaskPayload
+from services.processor.schemas.task import TaskPayload
 
 logger = logging.getLogger(__name__)
 

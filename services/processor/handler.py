@@ -2,7 +2,7 @@ import json
 import logging
 from typing import Any, Dict
 
-from services.task_processor import TaskProcessor
+from services.processor.services.task_processor import TaskProcessor
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)

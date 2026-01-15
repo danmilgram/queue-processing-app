@@ -15,7 +15,7 @@ def mock_env():
 @pytest.fixture
 def mock_sqs():
     """Mock SQS client"""
-    with patch("services.queue.sqs_provider.boto3.client") as mock:
+    with patch("services.api.services.queue.sqs_provider.boto3.client") as mock:
         sqs_mock = MagicMock()
         sqs_mock.send_message.return_value = {"MessageId": "test-message-id"}
         mock.return_value = sqs_mock
@@ -25,7 +25,7 @@ def mock_sqs():
 @pytest.fixture
 def client(mock_env, mock_sqs):
     """FastAPI test client with mocked SQS and environment"""
-    from app import app
+    from services.api.app import app
 
     return TestClient(app)
 

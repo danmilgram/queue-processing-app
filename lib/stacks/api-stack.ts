@@ -22,16 +22,16 @@ export class ApiStack extends Stack {
 
     const apiLambda = new lambda.Function(this, "ApiLambda", {
       runtime: lambda.Runtime.PYTHON_3_11,
-      handler: "app.handler",
-      code: lambda.Code.fromAsset(path.join(__dirname, "../../services/api"), {
+      handler: "services.api.app.handler",
+      code: lambda.Code.fromAsset(path.join(__dirname, "../../"), {
         bundling: {
           image: lambda.Runtime.PYTHON_3_11.bundlingImage,
           command: [
             "bash",
             "-c",
             [
-              "pip install -r requirements.txt -t /asset-output",
-              "cp -au . /asset-output",
+              "pip install -r services/api/requirements.txt -t /asset-output",
+              "cp -au services /asset-output/",
             ].join(" && "),
           ],
         },

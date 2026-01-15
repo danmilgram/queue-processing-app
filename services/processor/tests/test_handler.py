@@ -3,7 +3,8 @@
 from unittest.mock import patch
 
 import pytest
-from handler import handle
+
+from services.processor.handler import handle
 
 
 def test_handler_success(sqs_event):
@@ -18,7 +19,7 @@ def test_handler_failure_triggers_retry(sqs_event):
     def fail(task):
         raise RuntimeError("Processing failed")
 
-    with patch("services.task_processor.TaskProcessor.process", side_effect=fail):
+    with patch("services.processor.services.task_processor.TaskProcessor.process", side_effect=fail):
         with pytest.raises(RuntimeError):
             handle(sqs_event, None)
 
@@ -39,7 +40,7 @@ def test_multiple_records_processed_in_order(multiple_records_event):
         calls.append(task["task_id"])
 
     with patch(
-        "services.task_processor.TaskProcessor.process",
+        "services.processor.services.task_processor.TaskProcessor.process",
         side_effect=record_call,
     ):
         handle(multiple_records_event, None)

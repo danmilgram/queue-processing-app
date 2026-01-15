@@ -1,3 +1,5 @@
+import * as path from "path";
+
 import { Duration, Stack, StackProps } from "aws-cdk-lib";
 import * as eventSources from "aws-cdk-lib/aws-lambda-event-sources";
 import * as lambda from "aws-cdk-lib/aws-lambda";
@@ -17,16 +19,16 @@ export class ProcessorStack extends Stack {
 
     const processorLambda = new lambda.Function(this, "TaskProcessorLambda", {
       runtime: lambda.Runtime.PYTHON_3_11,
-      handler: "handler.handle",
-      code: lambda.Code.fromAsset("services/processor", {
+      handler: "services.processor.handler.handle",
+      code: lambda.Code.fromAsset(path.join(__dirname, "../../"), {
         bundling: {
           image: lambda.Runtime.PYTHON_3_11.bundlingImage,
           command: [
             "bash",
             "-c",
             [
-              "pip install -r requirements.txt -t /asset-output",
-              "cp -au . /asset-output",
+              "pip install -r services/processor/requirements.txt -t /asset-output",
+              "cp -au services /asset-output/",
             ].join(" && "),
           ],
         },

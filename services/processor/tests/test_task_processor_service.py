@@ -1,7 +1,8 @@
 """Processor Unit Tests - process_task()"""
 
 import pytest
-from services.task_processor import TaskProcessor
+
+from services.processor.services.task_processor import TaskProcessor
 
 
 def test_process_task_success(valid_task):

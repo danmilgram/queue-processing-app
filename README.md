@@ -53,6 +53,18 @@ pip install -r requirements-dev.txt
 pytest -v
 ```
 
+**E2E Tests:**
+```bash
+pip install -r requirements-dev.txt
+pytest tests/e2e/ -v
+```
+
+**Coverage (98%):**
+```bash
+pytest tests/e2e/ services/api/tests/ services/processor/tests/ \
+  --cov=services --cov-report=term-missing
+```
+
 ---
 
 ## Code Quality

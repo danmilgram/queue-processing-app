@@ -2,7 +2,8 @@ import logging
 
 from fastapi import FastAPI
 from mangum import Mangum
-from routers.tasks import router as tasks_router
+
+from services.api.routers.tasks import router as tasks_router
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
