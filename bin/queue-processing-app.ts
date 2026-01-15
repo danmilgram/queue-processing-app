@@ -1,7 +1,8 @@
 import * as cdk from "aws-cdk-lib";
-import { QueueStack } from "../lib/stacks/queue-stack";
+
 import { ApiStack } from "../lib/stacks/api-stack";
 import { ProcessorStack } from "../lib/stacks/processor-stack";
+import { QueueStack } from "../lib/stacks/queue-stack";
 
 const app = new cdk.App();
 

@@ -19,6 +19,8 @@
     "@typescript-eslint/parser": "^6.19.0",
     "aws-cdk": "2.1100.3",
     "eslint": "^8.56.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-unused-imports": "^3.0.0",
     "jest": "^30",
     "ts-jest": "^29",
     "ts-node": "^10.9.2",

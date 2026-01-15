@@ -1,12 +1,12 @@
-import * as cdk from "aws-cdk-lib";
 import * as path from "path";
-import * as lambda from "aws-cdk-lib/aws-lambda";
+
+import * as cdk from "aws-cdk-lib";
+import { Stack, StackProps, Duration } from "aws-cdk-lib";
 import * as apigwv2 from "aws-cdk-lib/aws-apigatewayv2";
 import * as integrations from "aws-cdk-lib/aws-apigatewayv2-integrations";
 import * as iam from "aws-cdk-lib/aws-iam";
+import * as lambda from "aws-cdk-lib/aws-lambda";
 import * as sqs from "aws-cdk-lib/aws-sqs";
-
-import { Stack, StackProps, Duration } from "aws-cdk-lib";
 import { Construct } from "constructs";
 
 interface ApiStackProps extends StackProps {
