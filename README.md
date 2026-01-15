@@ -73,15 +73,34 @@ npm run lint:fix    # Auto-fix
 
 ---
 
-### Infrastructure Validation (Required)
+## Environment Configuration
 
-No AWS deployment is required to evaluate this challenge.
+This project supports environment-specific configuration via CDK context.
 
-To validate that all infrastructure is correctly defined and synthesizes
-into valid CloudFormation templates, run:
+All environment-specific values (timeouts, retries, CORS, naming) are defined in typed configuration files (`config/`) and injected into stacks at synthesis time.
+
+**Synthesize for different environments:**
+```bash
+cdk synth -c env=dev
+cdk synth -c env=prod
+```
+
+**Deploy to specific environment:**
+```bash
+cdk deploy --all -c env=dev
+cdk deploy --all -c env=prod
+```
+
+Default environment is `dev` if not specified.
+
+---
+
+### Infrastructure Validation
+
+To validate that all infrastructure is correctly defined and synthesizes into valid CloudFormation templates:
 
 ```bash
-cdk synth
+cdk synth -c env=dev
 ```
 
 ---
@@ -94,11 +113,11 @@ cdk synth
 - AWS CLI installed and configured (`aws configure`)
 - Python 3.11+
 
-
 **Deploy:**
 ```bash
-cdk bootstrap # (one-time environment setup)
-cdk deploy --all # deploy all services
+cdk bootstrap                    # One-time environment setup
+cdk deploy --all -c env=dev      # Deploy to dev
+cdk deploy --all -c env=prod     # Deploy to prod
 ```
 
 **Output:**

@@ -1,11 +1,14 @@
-import { Stack, StackProps, Duration } from "aws-cdk-lib";
-import * as lambda from "aws-cdk-lib/aws-lambda";
+import { Duration, Stack, StackProps } from "aws-cdk-lib";
 import * as eventSources from "aws-cdk-lib/aws-lambda-event-sources";
+import * as lambda from "aws-cdk-lib/aws-lambda";
 import * as sqs from "aws-cdk-lib/aws-sqs";
 import { Construct } from "constructs";
 
+import { AppConfig } from "../../config/environments";
+
 interface ProcessorStackProps extends StackProps {
-  taskQueue: sqs.Queue;
+  readonly config: AppConfig;
+  readonly taskQueue: sqs.Queue;
 }
 
 export class ProcessorStack extends Stack {
@@ -28,7 +31,10 @@ export class ProcessorStack extends Stack {
           ],
         },
       }),
-      timeout: Duration.seconds(30),
+      timeout: Duration.seconds(props.config.processor.timeoutSeconds),
+      environment: {
+        ENVIRONMENT: props.config.environment,
+      },
     });
 
     // Allow Lambda to consume messages from the queue
@@ -37,7 +43,7 @@ export class ProcessorStack extends Stack {
     // SQS event source with strict ordering
     processorLambda.addEventSource(
       new eventSources.SqsEventSource(props.taskQueue, {
-        batchSize: 1, // critical for FIFO ordering
+        batchSize: props.config.processor.batchSize,
       })
     );
   }
