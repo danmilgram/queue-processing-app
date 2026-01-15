@@ -1,8 +1,8 @@
 import * as path from "path";
 
 import { Duration, Stack, StackProps } from "aws-cdk-lib";
-import * as eventSources from "aws-cdk-lib/aws-lambda-event-sources";
 import * as lambda from "aws-cdk-lib/aws-lambda";
+import * as eventSources from "aws-cdk-lib/aws-lambda-event-sources";
 import * as sqs from "aws-cdk-lib/aws-sqs";
 import { Construct } from "constructs";
 

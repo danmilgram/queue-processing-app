@@ -19,7 +19,10 @@ def test_handler_failure_triggers_retry(sqs_event):
     def fail(task):
         raise RuntimeError("Processing failed")
 
-    with patch("services.processor.services.task_processor.TaskProcessor.process", side_effect=fail):
+    with patch(
+        "services.processor.services.task_processor.TaskProcessor.process",
+        side_effect=fail,
+    ):
         with pytest.raises(RuntimeError):
             handle(sqs_event, None)
 

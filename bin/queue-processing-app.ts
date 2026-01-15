@@ -43,7 +43,7 @@ const queueStack = new QueueStack(app, `QueueStack-${config.environment}`, {
   config,
 });
 
-const processorStack = new ProcessorStack(
+new ProcessorStack(
   app,
   `ProcessorStack-${config.environment}`,
   {

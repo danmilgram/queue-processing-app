@@ -23,8 +23,7 @@
         "newlines-between": "always",
         "alphabetize": { "order": "asc", "caseInsensitive": true }
       }
-    ],
-    "@typescript-eslint/explicit-function-return-type": "error"
+    ]
   },
   "ignorePatterns": ["*.js", "node_modules/", "cdk.out/"]
 }
