@@ -11,7 +11,7 @@ class TaskRequest(BaseModel):
     due_date: Optional[datetime] = None
 
     @validator("due_date")
-    def due_date_must_be_future(self, v):
+    def due_date_must_be_future(cls, v):
         if v is not None:
             # Make comparison timezone-aware
             now = datetime.now(timezone.utc)
