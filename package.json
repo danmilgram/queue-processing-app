@@ -8,12 +8,17 @@
     "build": "tsc",
     "watch": "tsc -w",
     "test": "jest",
-    "cdk": "cdk"
+    "cdk": "cdk",
+    "lint": "eslint lib bin --ext .ts",
+    "lint:fix": "eslint lib bin --ext .ts --fix"
   },
   "devDependencies": {
     "@types/jest": "^30",
     "@types/node": "^24.10.1",
+    "@typescript-eslint/eslint-plugin": "^6.19.0",
+    "@typescript-eslint/parser": "^6.19.0",
     "aws-cdk": "2.1100.3",
+    "eslint": "^8.56.0",
     "jest": "^30",
     "ts-jest": "^29",
     "ts-node": "^10.9.2",

@@ -57,16 +57,18 @@ pytest -v
 
 ## Code Quality
 
-**Format and lint:**
+**Python (format and lint):**
 ```bash
 # From project root
 ruff format services/
 ruff check services/ --fix
+pyright services/
 ```
 
-**Type check:**
+**TypeScript (lint):**
 ```bash
-pyright services/
+npm run lint        # Check
+npm run lint:fix    # Auto-fix
 ```
 
 ---
